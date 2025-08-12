@@ -8,7 +8,6 @@ CREATE TABLE IF NOT EXISTS folders
   name varchar(255) not null,
   created_at TIMESTAMP,
   updated_at TIMESTAMP,
-  deleted_at TIMESTAMP default null, 
   primary key (id)
 );
 
@@ -35,7 +34,6 @@ CREATE TABLE IF NOT EXISTS files
   size_kilobyte bigint not null,
   created_at TIMESTAMP,
   updated_at TIMESTAMP,
-  deleted_at TIMESTAMP default null, 
   primary key (id)
 );
 
