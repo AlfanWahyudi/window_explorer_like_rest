@@ -3,17 +3,7 @@ import { Folder, folderModel } from "./model";
 import SchemaHelper from "../../utils/schema-helper";
 
 abstract class FolderRepository {
-  static async create(folder: Folder): Promise<Folder> {
-    const [data] = await sql`
-      INSERT INTO folders (name)
-      VALUES (${folder.name})
-      RETURNING *
-    `
-
-    return SchemaHelper.parse(folderModel, data)
-  }
-
-  static async createWithTrx(folder: Folder) {
+  static async create(folder: Folder) {
     try {
       const result = await sql.begin(async tx => {
         const folderObj: Folder = {

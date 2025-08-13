@@ -10,7 +10,7 @@ abstract class FolderService {
       parent_folder_id: parentFolderId
     }
 
-    return await FolderRepository.createWithTrx(folder)
+    return await FolderRepository.create(folder)
   }
 
   static async remove(id: number): Promise<Boolean> {
