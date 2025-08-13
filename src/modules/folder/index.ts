@@ -84,4 +84,23 @@ export const folder = new Elysia({ prefix: '/folder' })
   )
   .get('/list/subs-and-files', () => {})
   .get('/list/as-tree', () => {})
-  .put('/:id/rename', ({ params: { id }, body: { name }}) => {})
+  .patch(
+    '/:id/rename/', 
+    async ({ params: { id }, body}) => {
+      const data = await FolderService.rename(id, body.name)
+      return {
+        success: true,
+        message: `Berhasil mengganti nama folder, id: ${id}`,
+        data
+      }
+    },
+    {
+      params: t.Object({
+        id: t.Number()
+      }),
+      body: folderModel,
+      response: {
+        200: successResponse
+      }
+    }
+  )

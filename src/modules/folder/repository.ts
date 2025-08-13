@@ -79,9 +79,39 @@ abstract class FolderRepository {
       : null
   }
 
-  // static async update(id:number, folder: Folder): Promise<Folder> {
-  //   return null
-  // }
+  static async checkDuplicateSiblingName(id: number, name: string): Promise<boolean> {
+    const queryResult = await sql`
+      SELECT 
+        cf.id, 
+        f.name, 
+        cf.parent_folder_id 
+      FROM child_folders cf 
+      JOIN folders f ON cf.id = f.id
+      WHERE 
+        cf.parent_folder_id = (
+          SELECT cf1.parent_folder_id FROM child_folders cf1  WHERE cf1.id = ${id}
+        ) AND 
+        f.name = ${name} AND
+        cf.id != ${id}
+    `
+    return queryResult.length > 0
+  }
+  
+  static async rename(id: number, name: string): Promise<Folder> {
+    const isNameDuplicate = await this.checkDuplicateSiblingName(id, name)
+    if (isNameDuplicate)
+      throw new Error('Nama folder tidak boleh sama')
+
+    const [data] = await sql`
+      UPDATE folders
+      SET 
+        name=${name}, 
+        updated_at=NOW()
+      WHERE id=${id}
+      RETURNING *
+    `
+    return SchemaHelper.parse(folderModel, data)
+  }
 
   static async findRootAll(): Promise<Array<Folder>> {
     const data = await sql`

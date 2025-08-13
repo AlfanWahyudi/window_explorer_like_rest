@@ -90,18 +90,12 @@ abstract class FolderService {
     */
   }
 
-  static rename(folderId: number, newName: string) {
-    /*
+  static async rename(id: number, name: string): Promise<Folder> {
+    const data = await FolderRepository.findById(id)
 
-      -- alur code
+    if (!data) throw new NotFoundError('Folder id tidak ditemukan')
 
-      - check if folderId is exist 
-      - if id not found return NotFound 404
-
-      - query update folder name by id
-
-      - return folder_data 200
-    */
+    return await FolderRepository.rename(id, name)
   }
 
   static movePath() {
