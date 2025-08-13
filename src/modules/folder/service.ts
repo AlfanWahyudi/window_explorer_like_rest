@@ -10,7 +10,7 @@ abstract class FolderService {
       - if not 
         - query insert data to child_folder
         - if folder_id is not in parent_folders then
-          - query insert that folder_id with as_root false
+          - query insert that folder_id into parent_folders with as_root false
       - end transaction
 
       - return folder_data status 201

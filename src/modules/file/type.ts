@@ -1,4 +1,4 @@
-import { Folder } from "../folder/folder.type";
+import { Folder } from "../folder/type";
 
 export interface File {
   id: number;
