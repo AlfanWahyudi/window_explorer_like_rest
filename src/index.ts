@@ -1,13 +1,16 @@
 import { Elysia } from "elysia";
 import { file } from "./modules/file";
 import { folder } from "./modules/folder";
-import { describe, expect, it } from "bun:test";
+import { ErrorResponse } from "./models/response-message.model";
 
 const app = new Elysia({ prefix: '/api' })
   .onError(({ error, code }) => {
-    if (code === 'NOT_FOUND') return 'Not Found'
+    const response: ErrorResponse = {
+      success: false,
+      error: error.toString(),
+    }
 
-    console.error(error)
+    return response
   })
   .use(folder)
   .use(file)
