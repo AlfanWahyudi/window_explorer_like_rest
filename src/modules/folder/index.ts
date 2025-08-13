@@ -65,7 +65,23 @@ export const folder = new Elysia({ prefix: '/folder' })
       }
     }
   )
-  .get('/list/root', () => {})
+  .get(
+    '/list/root', 
+    async () => {
+      const data = await FolderService.getRootFolders()
+
+      return {
+        success: true,
+        message: 'Berhasil menampilkan data seluruh root folder',
+        data
+      }
+    },
+    {
+      response: {
+        200: successResponse
+      }
+    }
+  )
   .get('/list/subs-and-files', () => {})
   .get('/list/as-tree', () => {})
   .put('/:id/rename', ({ params: { id }, body: { name }}) => {})

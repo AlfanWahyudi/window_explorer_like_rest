@@ -5,6 +5,8 @@ import { ErrorResponse } from "./models/response-message.model";
 
 const app = new Elysia({ prefix: '/api' })
   .onError(({ error, code }) => {
+    console.error(error)
+    
     const response: ErrorResponse = {
       success: false,
       error: error.toString(),

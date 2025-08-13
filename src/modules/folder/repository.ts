@@ -83,12 +83,26 @@ abstract class FolderRepository {
   //   return null
   // }
 
+  static async findRootAll(): Promise<Array<Folder>> {
+    const data = await sql`
+      select 
+        f.id,
+        f.name,
+        pf.as_root,
+        f.created_at,
+        f.updated_at 
+      from folders f 
+      join parent_folders pf on f.id = pf.id 
+      where pf.as_root = true
+    `
+    return SchemaHelper.parseAsArray(folderModel, data)
+  }
+
   static async delete(id: number): Promise<boolean> {
     await sql`delete from folders where id = ${id}`
     
     return true
   }
-    
 }
 
 export default FolderRepository

@@ -21,15 +21,8 @@ abstract class FolderService {
     return await FolderRepository.delete(id)
   }
 
-  static getRootFolders() {
-    /*
-
-      -- alur code
-
-      - query select all from parent_folders by as_root true
-
-      - return root_folders_data 200
-    */
+  static async getRootFolders() {
+    return await FolderRepository.findRootAll()
   }
 
   static getSubFoldersAndFiles(parentFolderId: number) {
