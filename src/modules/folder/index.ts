@@ -1,26 +1,26 @@
 import Elysia, { t } from "elysia";
-import { createFolderBody } from "./model";
+import { Folder, folderModel } from "./model";
+import FolderService from "./service";
 
 export const folder = new Elysia({ prefix: '/folder' })
   .post(
     '/', 
-    ({ body, status }) => {
-      if (body.asRoot && body.parentFolderId > 0) 
-        return status(404, {
-          message: `property parentFolderId tidak boleh lebih dari 0 jika asRoot true`
-        })
+    async ({ body, status }) => {
+      const asRoot = body.as_root ?? false
+      const parentFolderId = body.parent_folder_id ?? 0
 
-      if (!body.asRoot && body.parentFolderId <= 0) 
-        return status(404, {
-          message: `property parentFolderId tidak boleh kurang dari sama dengan 0 jika as_root false`
-        })
+      if (asRoot && parentFolderId > 0) 
+        return status(400) 
 
-      // save data with services
+      if (!asRoot && parentFolderId <= 0)
+        return status(400)
 
-      return body
+      const data = await FolderService.save(body.name, asRoot, parentFolderId)
+
+      return data
     },
     {
-      body: createFolderBody
+      body: folderModel
     },
   )
   .delete('/:id', ({ params: { id }}) => {})

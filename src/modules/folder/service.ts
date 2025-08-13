@@ -1,20 +1,15 @@
+import { Folder } from "./model"
+import FolderRepository from "./repository"
 
 abstract class FolderService {
-  static save(name: string, asRoot: boolean, parentFolderId: number) {
-    /*
-      -- alur code
+  static async save(name: string, asRoot: boolean, parentFolderId: number): Promise<Folder> {
+    const folder: Folder = {
+      name,
+      as_root: asRoot,
+      parent_folder_id: parentFolderId
+    }
 
-      - start transaction
-      - query insert to folders table first, returned data
-      - if asRoot then query insert folder data to parent_folder table
-      - if not 
-        - query insert data to child_folder
-        - if folder_id is not in parent_folders then
-          - query insert that folder_id into parent_folders with as_root false
-      - end transaction
-
-      - return folder_data status 201
-    */
+    return await FolderRepository.createWithTrx(folder)
   }
 
   static remove(folderId: number) {
