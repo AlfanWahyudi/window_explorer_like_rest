@@ -79,6 +79,28 @@ abstract class FolderRepository {
       : null
   }
 
+  static async findAllAsTreeFormat(): Promise<Array<Folder>>  {
+    const data = await sql`
+      SELECT 
+        f.id,
+        f.name,
+        (SELECT EXISTS (SELECT 1 FROM parent_folders pf  WHERE pf.as_root = true AND pf.id = f.id)) AS as_root,
+        (SELECT EXISTS (SELECT 1 FROM parent_folders pf  WHERE pf.id = f.id)) AS as_parent,
+        (SELECT EXISTS (SELECT 1 FROM child_folders cf  WHERE cf.id = f.id)) AS as_child,
+          COALESCE(
+              (SELECT cf.parent_folder_id 
+              FROM child_folders cf  
+              WHERE cf.id = f.id),
+              -1
+          ) AS parent_folder_id,
+        f.created_at,
+        f.updated_at
+      FROM folders f 
+      ORDER BY f.name
+    `
+    return SchemaHelper.parseAsArray(folderModel, data)
+  }
+
   static async checkDuplicateSiblingName(id: number, name: string): Promise<boolean> {
     const queryResult = await sql`
       SELECT 

@@ -83,7 +83,22 @@ export const folder = new Elysia({ prefix: '/folder' })
     }
   )
   .get('/list/subs-and-files', () => {})
-  .get('/list/as-tree', () => {})
+  .get(
+    '/list/as-tree', 
+    async () => {
+      const data = await FolderService.getAllFoldersAsTree()
+
+      return {
+        success: true,
+        message: 'Berhasil menampilkan folder dalam bentuk tree',
+        data
+      }
+    }, {
+      response: {
+        200: successResponse
+      }
+    }
+  )
   .patch(
     '/:id/rename/', 
     async ({ params: { id }, body}) => {

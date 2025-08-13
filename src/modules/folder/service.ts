@@ -1,5 +1,5 @@
 import { NotFoundError } from "elysia"
-import { Folder } from "./model"
+import { Folder, FolderAsTreeModel } from "./model"
 import FolderRepository from "./repository"
 
 abstract class FolderService {
@@ -46,48 +46,57 @@ abstract class FolderService {
 
   }
 
-  static getAllFoldersAsTree() {
-    /*
-      -- alur code
+  private static async collectSubFolders(parentFolderId: number, data: Array<Folder>): Promise<Array<FolderAsTreeModel>> {
+    let result: FolderAsTreeModel[] = []
 
-      - query to get all folder data
+    const children = data.filter(folder => !folder.as_root && folder.parent_folder_id == parentFolderId)
+    for (const child of children) {
+      const childSubFolder: FolderAsTreeModel = {
+        id: child.id,
+        name: child.name,
+        created_at: child.created_at,
+        updated_at: child.updated_at,
+        child: []
+      }
 
-      - mapping data
+      if (child.as_parent) {
+        const subFolder = await this.collectSubFolders(child.id ?? 0, data)
+        childSubFolder.child = [...subFolder]
+      }
 
-      [
-        {
-          id: 1,
-          name: 'folder 1',
-          created_at: '2025-08-01 15:50:01.000',
-          updated_at: '2025-08-01 15:50:01.000',
-          child: [
-            {
-              id: 2,
-              name: 'folder 2',
-              created_at: '2025-08-01 15:50:01.000',
-              updated_at: '2025-08-01 15:50:01.000',
-            },
-            {
-              name: 'folder 3'
-            },
-            {
-              name: 'folder 4'
-            }
-          ]
-        },
-        {
-          name: 'folder 5'
-        },
-        {
-          id: 6,
-          name: 'folder 6',
-          created_at: '2025-08-01 15:50:01.000',
-          updated_at: '2025-08-01 15:50:01.000',
+      result = [...result, childSubFolder]
+    }
+
+    return result
+  }
+
+  static async getAllFoldersAsTree(): Promise<Array<FolderAsTreeModel>> {
+    const result: Array<FolderAsTreeModel> = []
+    const data = await FolderRepository.findAllAsTreeFormat()
+    
+    const rootFolders = await FolderRepository.findRootAll();
+    for (let root of rootFolders) {
+      const found = data.find((folder) => folder.id === root.id)
+
+      if (found) {
+        const rootFolderTree: FolderAsTreeModel = {
+          id: found.id,
+          name: found.name,
+          created_at: found.created_at,
+          updated_at: found.updated_at,
+          child: []
         }
-      ]
 
-      - return folder_data 200
-    */
+        const subFolder = await this.collectSubFolders(rootFolderTree.id ?? 0, data) 
+        if (subFolder.length > 0) {
+          rootFolderTree.child.push(...subFolder)
+        }
+
+        result.push(rootFolderTree)
+      }
+    }
+
+    return result
   }
 
   static async rename(id: number, name: string): Promise<Folder> {

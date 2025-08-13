@@ -12,16 +12,20 @@ const folderModel = t.Object({
   files: t.Optional(t.Array(t.String())),
 })
 
-const renameFolderModel = t.Object({
-  newName: t.String(),
+const folderAsTreeModel = t.Object({
+  id: t.Optional(t.Number()),
+  name: t.String(),
+  created_at: t.Optional(t.Date()),
+  updated_at: t.Optional(t.Date()),
+  child: t.Array(t.Any()),
 })
 
 type Folder = typeof folderModel.static
-type RenameFolder = typeof renameFolderModel.static
+type FolderAsTreeModel = typeof folderAsTreeModel.static
 
 export {
   folderModel,
-  renameFolderModel,
   Folder,
-  RenameFolder
+  folderAsTreeModel,
+  FolderAsTreeModel
 }
