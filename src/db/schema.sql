@@ -1,6 +1,7 @@
 DROP DATABASE "window-explorer";
 
 CREATE DATABASE "window-explorer";
+
 DROP TABLE IF EXISTS folders;
 CREATE TABLE  folders
 (
@@ -51,7 +52,7 @@ CREATE TABLE  folder_and_file
   size_kilobyte bigint,
   created_at TIMESTAMP not null,
   updated_at TIMESTAMP not null,
-  source_table text
+  source_table text not null
 );
 CREATE INDEX idx_folder_and_file_id ON folder_and_file (id);
 CREATE INDEX idx_folder_and_file_created_at ON folder_and_file (created_at);

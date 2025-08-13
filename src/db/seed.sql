@@ -5,6 +5,7 @@ DELETE FROM folders;
 DELETE FROM parent_folders;
 DELETE FROM child_folders;
 DELETE FROM files;
+DELETE FROM folder_and_file;
 
 
 -- folders table ---
@@ -27,7 +28,7 @@ INSERT INTO folders (name) VALUES ('Folder (4.2.1)'); -- 12
 --- folder_and_file table ---
 INSERT INTO folder_and_file (id, name, created_at, updated_at, source_table)
 SELECT id, name, created_at, updated_at, 'folders_table'
-FROM folders
+FROM folders;
 
 -- parent_folders table ---
 INSERT INTO parent_folders (id, as_root) VALUES (1, true);
