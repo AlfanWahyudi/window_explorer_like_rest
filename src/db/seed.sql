@@ -10,18 +10,18 @@ DELETE FROM files;
 -- folders table ---
 ALTER SEQUENCE folders_id_seq RESTART WITH 1;
 
-INSERT INTO folders (name, created_at, updated_at) VALUES ('Documents', '2025-08-01 15:50:01', '2025-08-01 15:50:01');
-INSERT INTO folders (name, created_at, updated_at) VALUES ('Pictures', '2025-08-01 15:50:01', '2025-08-01 15:50:01');
-INSERT INTO folders (name, created_at, updated_at) VALUES ('Music', '2025-08-01 15:50:01', '2025-08-01 15:50:01');
-INSERT INTO folders (name, created_at, updated_at) VALUES ('Videos', '2025-08-01 15:50:01', '2025-08-01 15:50:01');
-INSERT INTO folders (name, created_at, updated_at) VALUES ('School', '2025-08-01 15:50:01', '2025-08-01 15:50:01');
-INSERT INTO folders (name, created_at, updated_at) VALUES ('Middle School', '2025-08-01 15:50:01', '2025-08-01 15:50:01');
-INSERT INTO folders (name, created_at, updated_at) VALUES ('High School', '2025-08-01 15:50:01', '2025-08-01 15:50:01');
-INSERT INTO folders (name, created_at, updated_at) VALUES ('Files', '2025-08-01 15:50:01', '2025-08-01 15:50:01');
-INSERT INTO folders (name, created_at, updated_at) VALUES ('Holiday', '2025-08-01 15:50:01', '2025-08-01 15:50:01');
-INSERT INTO folders (name, created_at, updated_at) VALUES ('Study', '2025-08-01 15:50:01', '2025-08-01 15:50:01');
-INSERT INTO folders (name, created_at, updated_at) VALUES ('Jazz', '2025-08-01 15:50:01', '2025-08-01 15:50:01');
-INSERT INTO folders (name, created_at, updated_at) VALUES ('Rock', '2025-08-01 15:50:01', '2025-08-01 15:50:01');
+INSERT INTO folders (name) VALUES ('Documents');
+INSERT INTO folders (name) VALUES ('Pictures');
+INSERT INTO folders (name) VALUES ('Music');
+INSERT INTO folders (name) VALUES ('Videos');
+INSERT INTO folders (name) VALUES ('School');
+INSERT INTO folders (name) VALUES ('Middle School');
+INSERT INTO folders (name) VALUES ('High School');
+INSERT INTO folders (name) VALUES ('Files');
+INSERT INTO folders (name) VALUES ('Holiday');
+INSERT INTO folders (name) VALUES ('Study');
+INSERT INTO folders (name) VALUES ('Jazz');
+INSERT INTO folders (name) VALUES ('Rock');
 
 
 -- parent_folders table ---

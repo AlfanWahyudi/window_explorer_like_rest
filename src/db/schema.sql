@@ -6,8 +6,8 @@ CREATE TABLE IF NOT EXISTS folders
 (
   id serial,
   name varchar(255) not null,
-  created_at TIMESTAMP,
-  updated_at TIMESTAMP,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   primary key (id)
 );
 
@@ -32,8 +32,8 @@ CREATE TABLE IF NOT EXISTS files
   name varchar(255) not null,
   extension varchar(15) not null,
   size_kilobyte bigint not null,
-  created_at TIMESTAMP,
-  updated_at TIMESTAMP,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   primary key (id)
 );
 
