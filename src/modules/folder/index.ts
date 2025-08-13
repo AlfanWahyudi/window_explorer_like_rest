@@ -40,13 +40,29 @@ export const folder = new Elysia({ prefix: '/folder' })
   )
   .delete(
     '/:id', 
-    async ({ params: { id }}) => {
-      await FolderService.remove(id)
+    async ({ params: { id }, status}) => {
+      const isSuccess = await FolderService.remove(id)
+
+      if (!isSuccess)
+        return status(500, {
+          success: false,
+          error: `Gagal menghapus folder, id: ${id}`,
+        })
+
+      return {
+        success: true,
+        message: `Berhasil menghapus folder, id: ${id}`,
+        data: null
+      }
     },
     {
       params: t.Object({
         id: t.Number()
-      })
+      }),
+      response: {
+        500: errorResponse,
+        200: successResponse
+      }
     }
   )
   .get('/list/root', () => {})

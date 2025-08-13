@@ -81,9 +81,12 @@ abstract class FolderRepository {
 
   }
 
-  static async get(id: number): Promise<Folder> {
+  static async findById(id: number): Promise<Folder | null> {
     const [data] = await sql`SELECT * FROM folders where id = ${id}`
-    return SchemaHelper.parse(folderModel, data)
+
+    return data !== undefined
+      ? SchemaHelper.parse(folderModel, data)
+      : null
   }
 
   // static async update(id:number, folder: Folder): Promise<Folder> {
@@ -93,7 +96,6 @@ abstract class FolderRepository {
   static async delete(id: number): Promise<boolean> {
     await sql`delete from folders where id = ${id}`
     
-    //TODO query to remove id from parent_folders too if not have any child_folders
     return true
   }
     

@@ -1,3 +1,4 @@
+import { NotFoundError } from "elysia"
 import { Folder } from "./model"
 import FolderRepository from "./repository"
 
@@ -12,16 +13,12 @@ abstract class FolderService {
     return await FolderRepository.createWithTrx(folder)
   }
 
-  static remove(folderId: number) {
-    /*
-      -- alur code
+  static async remove(id: number): Promise<Boolean> {
+    const data = await FolderRepository.findById(id)
 
-      - check id on folders table
-      - if id not found return NotFound 404
-      - delete query folder data by id
+    if (!data) throw new NotFoundError('Folder id tidak ditemukan')
 
-      - return folder_data 200
-    */
+    return await FolderRepository.delete(id)
   }
 
   static getRootFolders() {
