@@ -1,5 +1,5 @@
 import Elysia, { t } from "elysia";
-import { Folder, folderModel } from "./model";
+import { folderModel } from "./model";
 import FolderService from "./service";
 import { errorResponse, successResponse } from "../../models/response-message.model";
 
@@ -82,7 +82,26 @@ export const folder = new Elysia({ prefix: '/folder' })
       }
     }
   )
-  .get('/list/subs-and-files', () => {})
+  .get(
+    '/:folderId/sub-folders-and-files', 
+    async ({ params: { folderId }}) => {
+      const data = await FolderService.getSubFoldersAndFiles(folderId)
+
+      return {
+        success: true,
+        message: `Request success`,
+        data
+      }
+    },
+    {
+      params: t.Object({
+        folderId: t.Number()
+      }),
+      response: {
+        200: successResponse
+      }
+    }
+  )
   .get(
     '/list/as-tree', 
     async () => {

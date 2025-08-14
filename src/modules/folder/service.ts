@@ -1,6 +1,8 @@
 import { NotFoundError } from "elysia"
 import { Folder, FolderAsTreeModel } from "./model"
 import FolderRepository from "./repository"
+import { FolderAndFileModel } from "../folder-and-file/model"
+import FolderAndFileRepository from "../folder-and-file/repository"
 
 abstract class FolderService {
   static async save(name: string, asRoot: boolean, parentFolderId: number): Promise<Folder> {
@@ -25,25 +27,8 @@ abstract class FolderService {
     return await FolderRepository.findRootAll()
   }
 
-  static getSubFoldersAndFiles(parentFolderId: number) {
-    /*
-
-      -- alur code
-
-      - query select all child_folders by parentFolderId
-      - query select all files by parentFolderId
-
-      - merging data into one list
-      - result = []
-
-
-
-      - return {
-        folders: [{ id: 1, name: 'folder 1', created_at: '2025-08-01 15:50:01.000', updated_at: '2025-08-01 15:50:01.000' }],
-        files: [{ id: 1, file_name: 'folder_1', extension: 'png', size_kilobyte: 1000 created_at: '2025-08-01 15:50:01.000', updated_at: '2025-08-01 15:50:01.000' }]
-      } 200
-    */
-
+  static async getSubFoldersAndFiles(folderId: number): Promise<Array<FolderAndFileModel>> {
+    return await FolderAndFileRepository.findAllByFolderId(folderId)
   }
 
   private static async collectSubFolders(parentFolderId: number, data: Array<Folder>): Promise<Array<FolderAsTreeModel>> {
