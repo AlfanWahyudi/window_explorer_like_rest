@@ -2,8 +2,10 @@ import { Elysia } from "elysia";
 import { file } from "./modules/file";
 import { folder } from "./modules/folder";
 import { ErrorResponse } from "./models/response-message.model";
+import { swagger } from '@elysiajs/swagger';
 
 const app = new Elysia({ prefix: '/api' })
+  .use(swagger())
   .onError(({ error, code }) => {
     console.error(error)
     
