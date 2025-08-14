@@ -25,11 +25,6 @@ INSERT INTO folders (name) VALUES ('Folder (4.2)'); -- 11
 INSERT INTO folders (name) VALUES ('Folder (4.2.1)'); -- 12
 
 
---- folder_and_file table ---
-INSERT INTO folder_and_file (id, name, created_at, updated_at, source_table)
-SELECT id, name, created_at, updated_at, 'folders_table'
-FROM folders;
-
 -- parent_folders table ---
 INSERT INTO parent_folders (id, as_root) VALUES (1, true);
 INSERT INTO parent_folders (id, as_root) VALUES (2, true);
@@ -48,3 +43,16 @@ INSERT INTO child_folders (id, parent_folder_id) VALUES (9, 3);
 INSERT INTO child_folders (id, parent_folder_id) VALUES (10, 4);
 INSERT INTO child_folders (id, parent_folder_id) VALUES (11, 4);
 INSERT INTO child_folders (id, parent_folder_id) VALUES (12, 11);
+
+
+--- folder_and_file table ---
+INSERT INTO folder_and_file (id, parent_folder_id, name, created_at, updated_at, source_table)
+select 
+	f.id,
+	cf.parent_folder_id,
+	f.name,
+	f.created_at,
+	f.updated_at,
+	'folder_table'
+from folders f 
+join child_folders cf on f.id = cf.id;

@@ -46,6 +46,7 @@ DROP TABLE IF EXISTS folder_and_file;
 CREATE TABLE  folder_and_file 
 (
   id int not null,
+  parent_folder_id int not null,
   name text,
   path text,
   extension varchar(15),
