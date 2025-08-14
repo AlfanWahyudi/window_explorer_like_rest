@@ -31,7 +31,7 @@ INSERT INTO parent_folders (id, as_root) VALUES (2, true);
 INSERT INTO parent_folders (id, as_root) VALUES (3, true);
 INSERT INTO parent_folders (id, as_root) VALUES (4, true);
 INSERT INTO parent_folders (id, as_root) VALUES (7, false);
-INSERT INTO parent_folders (id, as_root) VALUES (11, true);
+INSERT INTO parent_folders (id, as_root) VALUES (11, false);
 
 
 -- child_folders table ---
